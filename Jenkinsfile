@@ -14,13 +14,32 @@ pipeline {
             }
         }
 
+        stage('Install Python and Pip') {
+            steps {
+                script {
+                    // Install Python and pip if not already installed
+                    sh '''
+                    if ! command -v python3 &> /dev/null; then
+                        echo "Python3 not found, installing..."
+                        sudo yum update -y
+                        sudo yum install -y python3
+                    fi
+                    if ! command -v pip3 &> /dev/null; then
+                        echo "Pip3 not found, installing..."
+                        sudo yum install -y python3-pip
+                    fi
+                    '''
+                }
+            }
+        }
+
         stage('Setup Python Environment') {
             steps {
                 script {
                     // Install virtualenv if not already installed
-                    sh 'pip install virtualenv'
+                    sh 'pip3 install virtualenv'
                     // Create a virtual environment
-                    sh 'virtualenv venv'
+                    sh 'python3 -m venv venv'
                 }
             }
         }
@@ -29,7 +48,7 @@ pipeline {
             steps {
                 script {
                     // Install project dependencies
-                    sh 'pip install -r requirements.txt'
+                    sh 'pip3 install -r requirements.txt'
                 }
             }
         }
@@ -38,7 +57,7 @@ pipeline {
             steps {
                 script {
                     // Run Django migrations
-                    sh 'python manage.py migrate'
+                    sh 'python3 manage.py migrate'
                 }
             }
         }
@@ -47,7 +66,7 @@ pipeline {
             steps {
                 script {
                     // Run Django tests
-                    sh 'python manage.py test'
+                    sh 'python3 manage.py test'
                 }
             }
         }
@@ -65,4 +84,5 @@ pipeline {
         }
     }
 }
+
 
