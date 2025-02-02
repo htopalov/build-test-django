@@ -4,7 +4,7 @@ pipeline {
     environment {
         // Set the Python environment
         VIRTUAL_ENV = "${WORKSPACE}/venv"
-        PATH = "${VIRTUAL_ENV}/bin:${env.PATH}:/home/htopalov/.local/bin"
+        PATH = "${VIRTUAL_ENV}/bin:${env.PATH}:/usr/local/bin"
     }
 
     stages {
@@ -63,5 +63,3 @@ pipeline {
         }
     }
 }
-
-
