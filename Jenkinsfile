@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('Check Credentials') {
             steps {
-                withCredentials([usernamePassword(credentialsId: 'your-credential-id', usernameVariable: 'USER', passwordVariable: 'PASS')]) {
+                withCredentials([usernamePassword(credentialsId: 'git_as_vault', usernameVariable: 'USER', passwordVariable: 'PASS')]) {
                     sh '''
                         EXPECTED_USER="htopalov"
                         EXPECTED_PASS="gggggg"
