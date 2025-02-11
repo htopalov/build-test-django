@@ -17,20 +17,8 @@ pipeline {
                     def password = VAULT_CREDS.password
 
                     // *** DANGER: DO NOT DO THIS IN PRODUCTION ***
-                    echo "Username (DEBUG ONLY - REMOVE): ${username}"
-                    echo "Password (DEBUG ONLY - REMOVE): ${password}"
-
-                    // Instead of printing, use the credentials directly:
-                    withCredentials([usernamePassword(credentialsId: 'your-vault-credential-id', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
-                        sh '''
-                            echo "Using USERNAME: $USERNAME"
-                            echo "Using PASSWORD: $PASSWORD"
-                            // Use $USERNAME and $PASSWORD to connect to your system.
-                            // Example: curl -u "$USERNAME:$PASSWORD" your-url
-                        '''
-                    }
-
-                    // *** VERY IMPORTANT: Remove the echo statements above immediately after debugging! ***
+                    echo "Username: ${username}"
+                    echo "Password: ${password}"
                 }
             }
         }
