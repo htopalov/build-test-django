@@ -2,6 +2,11 @@ pipeline {
     agent any
     
     stages {
+        stage('Checkout') {
+            steps {
+                checkout([$class: 'GitSCM', branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[credentialsId: 'git_as_vault', url: 'https://github.com/htopalov/build-test-django.git']]])
+            }
+        }
         stage('Check Credentials') {
             steps {
                 withCredentials([usernamePassword(
