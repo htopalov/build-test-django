@@ -12,8 +12,8 @@ pipeline {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'git_as_vault', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
                         sh '''
-                            echo "Username (DEBUG ONLY - REMOVE): $USERNAME" // For debugging - remove in production!
-                            echo "Password (DEBUG ONLY - REMOVE): $PASSWORD" // For debugging - remove in production!
+                            echo "Username: $USERNAME" // For debugging - remove in production!
+                            echo "Password: $PASSWORD" // For debugging - remove in production!
                             '''
                     }
             }
