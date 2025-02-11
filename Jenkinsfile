@@ -4,22 +4,27 @@ pipeline {
     stages {
         stage('Check Credentials') {
             steps {
-                withCredentials([usernamePassword(credentialsId: 'git_as_vault', usernameVariable: 'USER', passwordVariable: 'PASS')]) {
+                withCredentials([vaultUsernamePassword(
+                    credentialsId: 'git_as_vault', 
+                    usernameVariable: 'USER', 
+                    passwordVariable: 'PASS'
+                )]) {
                     sh '''
-                        EXPECTED_USER="htopalov"
-                        EXPECTED_PASS="gggggg"
-                        
                         echo "=== Credentials Check ==="
-                        if [ "$USER" = "$EXPECTED_USER" ]; then
-                            echo "Username matches expected value"
+                        printf "Username: %s\\n" "$(echo $USER | sed 's/./*/g')"
+                        REAL_USER=$(echo $USER | sed 's/./*/g')
+                        if [ "$USER" != "$REAL_USER" ]; then
+                            echo "Username was updated!"
                         else
-                            echo "Username does NOT match expected value"
+                            echo "Username is unchanged"
                         fi
                         
-                        if [ "$PASS" = "$EXPECTED_PASS" ]; then
-                            echo "Password matches expected value"
+                        printf "Password: %s\\n" "$(echo $PASS | sed 's/./*/g')"
+                        
+                        if [ "$PASS" != "123" ]; then
+                            echo "Password was updated!"
                         else
-                            echo "Password does NOT match expected value"
+                            echo "Password is unchanged"
                         fi
                     '''
                 }
