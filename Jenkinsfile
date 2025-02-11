@@ -4,8 +4,8 @@ pipeline {
     stages {
         stage('Check Credentials') {
             steps {
-                withCredentials([vaultUsernamePassword(
-                    credentialsId: 'git_as_vault', 
+                withCredentials([usernamePassword(
+                    credentialsId: 'your-vault-cred-id', 
                     usernameVariable: 'USER', 
                     passwordVariable: 'PASS'
                 )]) {
@@ -20,7 +20,6 @@ pipeline {
                         fi
                         
                         printf "Password: %s\\n" "$(echo $PASS | sed 's/./*/g')"
-                        
                         if [ "$PASS" != "123" ]; then
                             echo "Password was updated!"
                         else
