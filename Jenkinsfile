@@ -16,7 +16,8 @@ pipeline {
                             echo "Password: $PASSWORD" // For debugging - remove in production!
                             TU=$USERNAME
                             TP=$PASSWORD
-                            curl -u "$TU:$TP" "your-url"
+                            cd /opt
+                            echo "Hello, world!" > my_file.txt
                             '''
                     }
             }
