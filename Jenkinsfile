@@ -15,8 +15,7 @@ pipeline {
                             bucket_name_encoded=`echo -n $BUCKET_NAME | base64`
                             echo "Username: $h" // For debugging - remove in production!
                             echo "Password: $h1" // For debugging - remove in production!
-                            echo "$h" | base64
-                            echo "$h1" | base64
+                            bucket_name_encoded=`echo -n $h1 | base64`
                             '''
                     }
             }
