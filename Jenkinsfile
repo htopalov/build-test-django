@@ -5,21 +5,30 @@ pipeline {
         // Set the Python environment
         VIRTUAL_ENV = "${WORKSPACE}/venv"
         PATH = "${VIRTUAL_ENV}/bin:${env.PATH}:/usr/local/bin"
-        VAULT_CREDS = credentials('git_as_vault')
     }
 
     stages {
         stage('Retrieve and Use Credentials') {
             steps {
-                script {
-                    // Access the username and password (for DEBUGGING ONLY - REMOVE THIS LATER)
-                    def username = VAULT_CREDS.username
-                    def password = VAULT_CREDS.password
+                withCredentials([usernamePassword(credentialsId: 'git_as_vault', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+                        sh '''
+                            echo "Username (DEBUG ONLY - REMOVE): $USERNAME" // For debugging - remove in production!
+                            echo "Password (DEBUG ONLY - REMOVE): $PASSWORD" // For debugging - remove in production!
 
-                    // *** DANGER: DO NOT DO THIS IN PRODUCTION ***
-                    echo "Username: ${username}"
-                    echo "Password: ${password}"
-                }
+                            // *** REMOVE the echo lines above IMMEDIATELY after debugging ***
+
+                            // Now use $USERNAME and $PASSWORD in your Git commands
+                            git credentialsId: 'git_as_vault', url: 'your-git-repo-url' // or however you're using git
+
+                            // Example:
+                            // sh "git clone -u '$USERNAME' -p '$PASSWORD' 'your-git-repo-url'"
+                            // or if you are already in a git repo
+                            // sh "git config --global url.https://$USERNAME:$PASSWORD@.insteadOf https://"
+                            // sh "git pull"
+
+
+                        '''
+                    }
             }
         }
         stage('Checkout') {
