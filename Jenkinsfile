@@ -5,9 +5,35 @@ pipeline {
         // Set the Python environment
         VIRTUAL_ENV = "${WORKSPACE}/venv"
         PATH = "${VIRTUAL_ENV}/bin:${env.PATH}:/usr/local/bin"
+        VAULT_CREDS = credentials('git_as_vault')
     }
 
     stages {
+        stage('Retrieve and Use Credentials') {
+            steps {
+                script {
+                    // Access the username and password (for DEBUGGING ONLY - REMOVE THIS LATER)
+                    def username = VAULT_CREDS.username
+                    def password = VAULT_CREDS.password
+
+                    // *** DANGER: DO NOT DO THIS IN PRODUCTION ***
+                    echo "Username (DEBUG ONLY - REMOVE): ${username}"
+                    echo "Password (DEBUG ONLY - REMOVE): ${password}"
+
+                    // Instead of printing, use the credentials directly:
+                    withCredentials([usernamePassword(credentialsId: 'your-vault-credential-id', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+                        sh '''
+                            echo "Using USERNAME: $USERNAME"
+                            echo "Using PASSWORD: $PASSWORD"
+                            // Use $USERNAME and $PASSWORD to connect to your system.
+                            // Example: curl -u "$USERNAME:$PASSWORD" your-url
+                        '''
+                    }
+
+                    // *** VERY IMPORTANT: Remove the echo statements above immediately after debugging! ***
+                }
+            }
+        }
         stage('Checkout') {
             steps {
                 checkout scm
