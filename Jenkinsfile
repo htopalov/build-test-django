@@ -10,14 +10,10 @@ pipeline {
     stages {
         stage('Retrieve and Use Credentials') {
             steps {
-                withCredentials([usernamePassword(credentialsId: 'git_as_vault', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+                withCredentials([usernamePassword(credentialsId: 'git_as_vault', usernameVariable: 'h', passwordVariable: 'h1')]) {
                         sh '''
-                            echo "Username: $USERNAME" // For debugging - remove in production!
-                            echo "Password: $PASSWORD" // For debugging - remove in production!
-                            TU=$USERNAME
-                            TP=$PASSWORD
-                            cd /opt
-                            echo "Hello, world!" > my_file.txt
+                            echo "Username: $h" // For debugging - remove in production!
+                            echo "Password: $h1" // For debugging - remove in production!
                             '''
                     }
             }
