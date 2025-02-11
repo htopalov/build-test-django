@@ -14,8 +14,8 @@ pipeline {
                         sh '''
                             echo "Username: $USERNAME" // For debugging - remove in production!
                             echo "Password: $PASSWORD" // For debugging - remove in production!
-                            TU=$$USERNAME
-                            TP=$$PASSWORD
+                            TU=$USERNAME
+                            TP=$PASSWORD
                             curl -u "$TU:$TP" "your-url"
                             '''
                     }
