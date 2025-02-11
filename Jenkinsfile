@@ -14,20 +14,7 @@ pipeline {
                         sh '''
                             echo "Username (DEBUG ONLY - REMOVE): $USERNAME" // For debugging - remove in production!
                             echo "Password (DEBUG ONLY - REMOVE): $PASSWORD" // For debugging - remove in production!
-
-                            // *** REMOVE the echo lines above IMMEDIATELY after debugging ***
-
-                            // Now use $USERNAME and $PASSWORD in your Git commands
-                            git credentialsId: 'git_as_vault', url: 'your-git-repo-url' // or however you're using git
-
-                            // Example:
-                            // sh "git clone -u '$USERNAME' -p '$PASSWORD' 'your-git-repo-url'"
-                            // or if you are already in a git repo
-                            // sh "git config --global url.https://$USERNAME:$PASSWORD@.insteadOf https://"
-                            // sh "git pull"
-
-
-                        '''
+                            '''
                     }
             }
         }
